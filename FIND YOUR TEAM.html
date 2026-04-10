@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Day — Team Finder</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+...your existing CSS...
+
+/* ✨ ADD HERE */
+.glitter-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.glitter {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: fall 2s linear forwards;
+  box-shadow: 0 0 10px currentColor; /* ✨ glow */
+}
+
+@keyframes fall {
+  from {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+</style>
+<style>
+  :root {
+    --crimson: #DC143C;
+    --crimson-light: #DC143C;
+    --amber: #FFBF00;
+    --amber-light: #FFBF00;
+    --obsidian: #71627a;
+
+    --bg: #0D0D0D;
+    --surface: #161616;
+    --border: rgba(255,255,255,0.07);
+    --text: #F0EDE8;
+    --muted: rgba(240,237,232,0.45);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    margin: 0;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px; /* reduced */
+  }
+
+  .eyebrow {
+    font-size: 22px;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 12vw, 100px);
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  .search-wrap {
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  #search {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 20px 20px 54px;
+    font-size: 17px;
+    color: var(--text);
+    outline: none;
+  }
+
+  .prompt-msg {
+  text-align: center;
+  padding: 60px 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.6),
+    0 0 16px rgba(255,255,255,0.4),
+    0 0 32px rgba(231,76,60,0.6);
+
+  animation: glowPulse 2s infinite;
+  }
+
+  .result-card {
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    margin-bottom: 14px;
+  }
+
+  .card-inner {
+    display: flex;
+  }
+
+  .team-stripe {
+    width: 6px;
+  }
+
+  .team-stripe.CRIMSON { background: var(--crimson-light); }
+  .team-stripe.AMBER { background: var(--amber-light); }
+  .team-stripe.OBSIDIAN { background: #5b4965; }
+
+  .card-body {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .student-name {
+    font-size: 16px;
+  }
+
+  .team-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+  }
+
+  .team-label.CRIMSON { color: var(--crimson-light); }
+  .team-label.AMBER { color: var(--amber-light); }
+  .team-label.OBSIDIAN { color: #71627a; }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 24px;
+    margin-top: 150px;
+  }
+.reveal-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.reveal-screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.reveal-text {
+  text-align: center;
+}
+
+.reveal-sub {
+  font-size: 22px;
+  letter-spacing: 0.2em;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.reveal-team {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 120px;
+  letter-spacing: 0.05em;
+}
+
+/* 🔴 Crimson */
+.reveal-team.CRIMSON {
+  color: #FF3B3B;
+  text-shadow: 0 0 20px rgba(255,59,59,0.8);
+}
+
+/* 🟡 Amber */
+.reveal-team.AMBER {
+  color: #F39C12;
+  text-shadow: 0 0 20px rgba(243,156,18,0.8);
+}
+
+/* ⚫ Obsidian */
+.reveal-team.OBSIDIAN {
+  color: #8888CC;
+  text-shadow: 0 0 20px rgba(136,136,204,0.8);
+}
+</style>
+</head>
+
+<body>
+<div id="reveal-screen" class="reveal-screen hidden">
+  <div class="reveal-text">
+    <div class="reveal-sub">YOU BELONG TO</div>
+    <div id="reveal-team" class="reveal-team"></div>
+  </div>
+</div>
+<div class="glitter-container"></div>
+<div class="container">
+
+<header>
+  <div class="eyebrow">Open Day & Exhibition · 21 April 2026</div>
+  <h1>ODYSSEY<br>2026</h1>
+ <div id="results">
+  <div class="prompt-msg"> ✦ Enter your name to reveal your team ✦</div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="text" id="search" placeholder="Type your name and press Enter">
+</div>
+
+
+<footer>DEPARTMENT OF ANIMATION & VIRTUAL REALITY · 2026</footer>
+
+</div>
+
+<script>
+
+// ⚠️ KEEP YOUR FULL ORIGINAL DATA HERE (DO NOT CHANGE)
+const STUDENTS = [{"name":"ABHISHEK KUMAR","usn":"25BSNR0026","team":"CRIMSON","class":"2nd ANI"},{"name":"ADITHI L","usn":"25BSNR0027","team":"AMBER","class":"2nd ANI"},{"name":"ADITYA B","usn":"25BSNR0001","team":"OBSIDIAN","class":"2nd ANI"},{"name":"ANKITH C","usn":"25BSNR0028","team":"CRIMSON","class":"2nd ANI"},{"name":"ANIRUDDHA B H","usn":"25BSNR0029","team":"AMBER","class":"2nd ANI"},{"name":"ANKAN MONDAL","usn":"25BSNR0002","team":"OBSIDIAN","class":"2nd ANI"},{"name":"ARSHAD ALI BASHA E","usn":"25BSNR0120","team":"CRIMSON","class":"2nd ANI"},{"name":"BHUMIK BHANDARI","usn":"25BSNR0030","team":"AMBER","class":"2nd ANI"},{"name":"BRENWEN VINAYAN WILLIAM","usn":"25BSNR0106","team":"OBSIDIAN","class":"2nd ANI"},{"name":"DAKSH J PATEL","usn":"25BSNR0003","team":"CRIMSON","class":"2nd ANI"},{"name":"DARANAVI Y R","usn":"25BSNR0133","team":"AMBER","class":"2nd ANI"},{"name":"ESHWARVARAPRASAD T H","usn":"25BSNR0098","team":"OBSIDIAN","class":"2nd ANI"},{"name":"GAUTHAM S","usn":"25BSNR0031","team":"CRIMSON","class":"2nd ANI"},{"name":"GOVINDA VIKRRAM SIMHA","usn":"25BSNR0004","team":"AMBER","class":"2nd ANI"},{"name":"KARTHIK PRASANTH","usn":"25BSNR0014","team":"OBSIDIAN","class":"2nd ANI"},{"name":"KAUSHIKI K RAWAT","usn":"25BSNR0096","team":"CRIMSON","class":"2nd ANI"},{"name":"KOUSHIK NARASIMHA HEGDE","usn":"25BSNR0032","team":"AMBER","class":"2nd ANI"},{"name":"LIKITH C","usn":"25BSNR0075","team":"OBSIDIAN","class":"2nd ANI"},{"name":"M S SHREYA","usn":"25BSNR0033","team":"CRIMSON","class":"2nd ANI"},{"name":"MADAN M","usn":"25BSNR0069","team":"AMBER","class":"2nd ANI"},{"name":"MAYUR S","usn":"25BSNR0107","team":"OBSIDIAN","class":"2nd ANI"},{"name":"MITHUNESH V","usn":"25BSNR0121","team":"CRIMSON","class":"2nd ANI"},{"name":"MOHAN K","usn":"25BSNR0005","team":"AMBER","class":"2nd ANI"},{"name":"NANDAN PRABHAT HEGDE","usn":"25BSNR0006","team":"OBSIDIAN","class":"2nd ANI"},{"name":"OHM KUMAR DEB","usn":"25BSNR0076","team":"CRIMSON","class":"2nd ANI"},{"name":"PARNIKA JANGHEL","usn":"25BSNR0034","team":"AMBER","class":"2nd ANI"},{"name":"PERUMALLAPALLI DHEERU","usn":"25BSNR0008","team":"OBSIDIAN","class":"2nd ANI"},{"name":"POOJA G","usn":"25BSNR0122","team":"CRIMSON","class":"2nd ANI"},{"name":"PRAJWAL B N","usn":"25BSNR0009","team":"AMBER","class":"2nd ANI"},{"name":"PRAJWAL S N","usn":"25BSNR0070","team":"OBSIDIAN","class":"2nd ANI"},{"name":"RUDRA JOSHI","usn":"25BSNR0123","team":"CRIMSON","class":"2nd ANI"},{"name":"RUDRA R S","usn":"25BSNR0071","team":"AMBER","class":"2nd ANI"},{"name":"S SAISHREE CHOUDHARY","usn":"25BSNR0035","team":"OBSIDIAN","class":"2nd ANI"},{"name":"SAKTHEESWARAN S","usn":"25BSNR0072","team":"CRIMSON","class":"2nd ANI"},{"name":"SANJAY B","usn":"25BSNR0010","team":"AMBER","class":"2nd ANI"},{"name":"SANJAY S","usn":"25BSNR0108","team":"OBSIDIAN","class":"2nd ANI"},{"name":"SHAN ADAM","usn":"25BSNR0124","team":"CRIMSON","class":"2nd ANI"},{"name":"SHRADDHA S","usn":"25BSNR0011","team":"AMBER","class":"2nd ANI"},{"name":"SNIGDHA DEBNATH","usn":"25BSNR0012","team":"OBSIDIAN","class":"2nd ANI"},{"name":"BHUMIK BHANDARI","usn":"25BSNR0013","team":"CRIMSON","class":"2nd ANI"},{"name":"SREESOORYAKRISHNA","usn":"25BSNR0036","team":"AMBER","class":"2nd ANI"},{"name":"SRI VISHNUPRIYA R","usn":"25BSNR0074","team":"OBSIDIAN","class":"2nd ANI"},{"name":"SRINIVASAN M","usn":"25BSNR0109","team":"CRIMSON","class":"2nd ANI"},{"name":"SWAYAM GAONKAR","usn":"25BSNR0037","team":"AMBER","class":"2nd ANI"},{"name":"THUMMAKOMMA YESHWANTH RISHIK","usn":"25BSNR0117","team":"OBSIDIAN","class":"2nd ANI"},{"name":"V RISHIKESH","usn":"25BSNR0038","team":"CRIMSON","class":"2nd ANI"},{"name":"VAISHNAV MEET PRAVIN","usn":"25BSNR0015","team":"AMBER","class":"2nd ANI"},{"name":"VARSHA A","usn":"25BSNR0039","team":"OBSIDIAN","class":"2nd ANI"},{"name":"VISHANTH J A","usn":"25BSNR0040","team":"CRIMSON","class":"2nd ANI"},{"name":"VISHOHI JAIN","usn":"25BSNR0041","team":"AMBER","class":"2nd ANI"},{"name":"YASHVEER","usn":"25BSNR0097","team":"OBSIDIAN","class":"2nd ANI"},{"name":"SRUJAN K","usn":"25BSNR0139","team":"CRIMSON","class":"2nd ANI"},{"name":"AADITHYAN GOPAKUMAR","usn":"25BSNR0079","team":"CRIMSON","class":"2nd GAM"},{"name":"ABDULLA SABU","usn":"25BSNR0135","team":"AMBER","class":"2nd GAM"},{"name":"ABHAY SURYA N","usn":"25BSNR0127","team":"OBSIDIAN","class":"2nd GAM"},{"name":"ADITYA B V","usn":"25BSNR0050","team":"CRIMSON","class":"2nd GAM"},{"name":"AKSHAY S CHENJI","usn":"25BSNR0051","team":"AMBER","class":"2nd GAM"},{"name":"AKSHAY V GIRISH","usn":"25BSNR0100","team":"OBSIDIAN","class":"2nd GAM"},{"name":"ANUVIND PREM M","usn":"25BSNR0052","team":"CRIMSON","class":"2nd GAM"},{"name":"ARJUN M S","usn":"25BSNR0016","team":"AMBER","class":"2nd GAM"},{"name":"AVINASH SHARMA","usn":"25BSNR0053","team":"OBSIDIAN","class":"2nd GAM"},{"name":"CHANDAN KUMAR S","usn":"25BSNR0054","team":"CRIMSON","class":"2nd GAM"},{"name":"DAMINENI BHARATH","usn":"25BSNR0128","team":"AMBER","class":"2nd GAM"},{"name":"EMIL JIJU JOSEPH","usn":"25BSNR0055","team":"OBSIDIAN","class":"2nd GAM"},{"name":"GAGAN SULTANIA","usn":"25BSNR0017","team":"CRIMSON","class":"2nd GAM"},{"name":"JEET H R GANDHI","usn":"25BSNR0018","team":"AMBER","class":"2nd GAM"},{"name":"JINESH R DHOKA","usn":"25BSNR0019","team":"OBSIDIAN","class":"2nd GAM"},{"name":"JYOTISHMAN RABHA","usn":"25BSNR0056","team":"CRIMSON","class":"2nd GAM"},{"name":"KARRI PHINEHAS JOY","usn":"25BSNR0080","team":"AMBER","class":"2nd GAM"},{"name":"KUSHAL JUMBLINGESH BAGIGOUDAR","usn":"25BSNR0057","team":"OBSIDIAN","class":"2nd GAM"},{"name":"MADDURU SREEPRANITH","usn":"25BSNR0081","team":"CRIMSON","class":"2nd GAM"},{"name":"MOHITH RAGHURAM","usn":"25BSNR0058","team":"AMBER","class":"2nd GAM"},{"name":"K S MURARI","usn":"25BSNR0134","team":"OBSIDIAN","class":"2nd GAM"},{"name":"P K PARAM POONACHA","usn":"25BSNR0082","team":"CRIMSON","class":"2nd GAM"},{"name":"PALA ROHITH KRISHNA","usn":"25BSNR0083","team":"AMBER","class":"2nd GAM"},{"name":"PRANJAL KISHOR SAINI","usn":"25BSNR0059","team":"OBSIDIAN","class":"2nd GAM"},{"name":"PRENEETH MICHAEL R","usn":"25BSNR0129","team":"CRIMSON","class":"2nd GAM"},{"name":"RAVI PAREEK","usn":"25BSNR0060","team":"AMBER","class":"2nd GAM"},{"name":"REVANTH CHANDRA M","usn":"25BSNR0020","team":"OBSIDIAN","class":"2nd GAM"},{"name":"RUTHEESH KUMAR KS","usn":"25BSNR0112","team":"CRIMSON","class":"2nd GAM"},{"name":"KAMALESH S","usn":"25BSNR0111","team":"AMBER","class":"2nd GAM"},{"name":"SANGEETH V P","usn":"25BSNR0101","team":"OBSIDIAN","class":"2nd GAM"},{"name":"SANJAY SHRIDHAR NAIK","usn":"25BSNR0113","team":"CRIMSON","class":"2nd GAM"},{"name":"SHANMUGA SURYA BHARADWAJ","usn":"25BSNR0095","team":"AMBER","class":"2nd GAM"},{"name":"SIDDHESH SUNDAR","usn":"25BSNR0061","team":"OBSIDIAN","class":"2nd GAM"},{"name":"SIDDHI MISHRA","usn":"25BSNR0084","team":"CRIMSON","class":"2nd GAM"},{"name":"SMARAN RAMESH","usn":"25BSNR0062","team":"AMBER","class":"2nd GAM"},{"name":"SUSNATA DAS","usn":"25BSNR0130","team":"OBSIDIAN","class":"2nd GAM"},{"name":"SWARN PANDE","usn":"25BSNR0063","team":"CRIMSON","class":"2nd GAM"},{"name":"UTKARSH GOYAL","usn":"25BSNR0022","team":"AMBER","class":"2nd GAM"},{"name":"VAIBHAV N V","usn":"25BSNR0064","team":"OBSIDIAN","class":"2nd GAM"},{"name":"VAISHNAV K RAJAN","usn":"25BSNR0065","team":"CRIMSON","class":"2nd GAM"},{"name":"VAREN SAXSENA","usn":"25BSNR0114","team":"AMBER","class":"2nd GAM"},{"name":"VENU G","usn":"25BSNR0066","team":"OBSIDIAN","class":"2nd GAM"},{"name":"VISHAL RAJIV JAMADAGNI","usn":"25BSNR0102","team":"CRIMSON","class":"2nd GAM"},{"name":"VISWANADHUNI JASWANTH","usn":"25BSNR0131","team":"AMBER","class":"2nd GAM"},{"name":"WILLIAM JOSEPH SEBASTIAN","usn":"25BSNR0067","team":"OBSIDIAN","class":"2nd GAM"},{"name":"ARYA MURTHY","usn":"25BSNR0023","team":"CRIMSON","class":"2nd DFM"},{"name":"BITAN DAS","usn":"25BSNR0046","team":"AMBER","class":"2nd DFM"},{"name":"HRISHIKESH N","usn":"25BSNR0125","team":"OBSIDIAN","class":"2nd DFM"},{"name":"KARUN KRISHNA EASHWAR","usn":"25BSNR0126","team":"CRIMSON","class":"2nd DFM"},{"name":"PRAJWAL","usn":"25BSNR0024","team":"AMBER","class":"2nd DFM"},{"name":"PRAYASH SARKAR","usn":"25BSNR0047","team":"OBSIDIAN","class":"2nd DFM"},{"name":"SANDESH B BIRADAR","usn":"25BSNR0110","team":"CRIMSON","class":"2nd DFM"},{"name":"SOORYA S","usn":"25BSNR0025","team":"AMBER","class":"2nd DFM"},{"name":"SWARNAVA KUNDU","usn":"25BSNR0099","team":"OBSIDIAN","class":"2nd DFM"},{"name":"VEDANG YOGESH DESHPANDE","usn":"25BSNR0049","team":"CRIMSON","class":"2nd DFM"},{"name":"ABHISHEK G M","usn":"25BSNR0085","team":"CRIMSON","class":"2nd VIS"},{"name":"AYUSHMAN JENA","usn":"25BSNR0119","team":"AMBER","class":"2nd VIS"},{"name":"DHANYA V BHARADWAJ","usn":"25BSNR0042","team":"OBSIDIAN","class":"2nd VIS"},{"name":"DIYA B","usn":"25BSNR0077","team":"CRIMSON","class":"2nd VIS"},{"name":"FATHIMA ANSAR","usn":"25BSNR0086","team":"AMBER","class":"2nd VIS"},{"name":"HARSHA K J","usn":"25BSNR0087","team":"OBSIDIAN","class":"2nd VIS"},{"name":"ISAAC DEVANESAN N","usn":"25BSNR0088","team":"CRIMSON","class":"2nd VIS"},{"name":"KRISHNAN N S","usn":"25BSNR0115","team":"AMBER","class":"2nd VIS"},{"name":"KRRISH SANTOSH TALAULIKAR","usn":"25BSNR0089","team":"OBSIDIAN","class":"2nd VIS"},{"name":"MADHAM SETTY SAMSKRUTHI","usn":"25BSNR0043","team":"CRIMSON","class":"2nd VIS"},{"name":"MISHA B JAIN","usn":"25BSNR0104","team":"AMBER","class":"2nd VIS"},{"name":"NAHUSH ANANTH","usn":"25BSNR0132","team":"OBSIDIAN","class":"2nd VIS"},{"name":"NAMEERA TEHREEM MOHAMMED NASEER IQBAL","usn":"25BSNR0090","team":"CRIMSON","class":"2nd VIS"},{"name":"NAVANEETH PRABOD","usn":"25BSNR0044","team":"AMBER","class":"2nd VIS"},{"name":"NIKHIL S","usn":"25BSNR0105","team":"OBSIDIAN","class":"2nd VIS"},{"name":"PADMAJA DIXIT","usn":"25BSNR0091","team":"CRIMSON","class":"2nd VIS"},{"name":"SAKE REVANTH","usn":"25BSNR0116","team":"AMBER","class":"2nd VIS"},{"name":"RUDRA SHARMA","usn":"25BSNR0136","team":"OBSIDIAN","class":"2nd VIS"},{"name":"SAI SHIVANI B M","usn":"25BSNR0092","team":"CRIMSON","class":"2nd VIS"},{"name":"SARAH FATHIMA S","usn":"25BSNR0045","team":"AMBER","class":"2nd VIS"},{"name":"SHRAWANI AMBADAS UPARE","usn":"25BSNR0093","team":"OBSIDIAN","class":"2nd VIS"},{"name":"SURRYA NANDAN S","usn":"25BSNR0078","team":"CRIMSON","class":"2nd VIS"},{"name":"VISHRUT MANNARI","usn":"25BSNR0137","team":"AMBER","class":"2nd VIS"},{"name":"SUMIT BELKONIKAR","usn":"25BSNR0138","team":"OBSIDIAN","class":"2nd VIS"},{"name":"ADITHYA D","usn":"24BSRAN006","team":"CRIMSON","class":"4th ANI A"},{"name":"ADITYA CHAUHAN","usn":"24BSRAN007","team":"AMBER","class":"4th ANI A"},{"name":"AHYAN RAAID MANSOOR","usn":"24BSRAN009","team":"OBSIDIAN","class":"4th ANI A"},{"name":"AKSHAY B","usn":"24BSRAN010","team":"CRIMSON","class":"4th ANI A"},{"name":"ARLIN LINROSE","usn":"24BSRAN015","team":"AMBER","class":"4th ANI A"},{"name":"ATHARVA NARENDRA GODKAR","usn":"24BSRAN016","team":"OBSIDIAN","class":"4th ANI A"},{"name":"AZHIM ASHADULLAH MOHAMED JALIQ","usn":"24BSRAN020","team":"CRIMSON","class":"4th ANI A"},{"name":"BISHAL NANDI","usn":"24BSRAN024","team":"AMBER","class":"4th ANI A"},{"name":"BYSANI AMARNATH SAI MANAS","usn":"24BSRAN025","team":"OBSIDIAN","class":"4th ANI A"},{"name":"CHIRANTH N","usn":"24BSRAN026","team":"CRIMSON","class":"4th ANI A"},{"name":"DANTULURI NAIMISHA","usn":"24BSRAN027","team":"AMBER","class":"4th ANI A"},{"name":"GAJULAPALLI MOUNIKA","usn":"24BSRAN029","team":"OBSIDIAN","class":"4th ANI A"},{"name":"HARSH DARYANI","usn":"24BSRAN030","team":"CRIMSON","class":"4th ANI A"},{"name":"HARSHITH JALAJAKSHAN","usn":"24BSRAN032","team":"AMBER","class":"4th ANI A"},{"name":"HEMACHANDAR K","usn":"24BSRAN033","team":"OBSIDIAN","class":"4th ANI A"},{"name":"JWNGSAR BORO","usn":"24BSRAN036","team":"CRIMSON","class":"4th ANI A"},{"name":"KAYALVIZHI M","usn":"24BSRAN037","team":"AMBER","class":"4th ANI A"},{"name":"KHUSHI B C","usn":"24BSRAN038","team":"OBSIDIAN","class":"4th ANI A"},{"name":"MAHAMMAD HAREES MASOOD","usn":"24BSRAN041","team":"CRIMSON","class":"4th ANI A"},{"name":"MALIYAPPA KOMAR","usn":"24BSRAN042","team":"AMBER","class":"4th ANI A"},{"name":"MOHAMMAD ILIYAS","usn":"24BSRAN044","team":"OBSIDIAN","class":"4th ANI A"},{"name":"N C KOMAL KUMAR","usn":"24BSRAN046","team":"CRIMSON","class":"4th ANI A"},{"name":"NEERAJ B","usn":"24BSRAN052","team":"AMBER","class":"4th ANI A"},{"name":"NIYA B","usn":"24BSRAN053","team":"OBSIDIAN","class":"4th ANI A"},{"name":"OJAS","usn":"24BSRAN054","team":"CRIMSON","class":"4th ANI A"},{"name":"PAYSO INDIA JENNIFER","usn":"24BSRAN056","team":"AMBER","class":"4th ANI A"},{"name":"PRADEEP G N","usn":"24BSRAN057","team":"OBSIDIAN","class":"4th ANI A"},{"name":"REUBEN MATHEW","usn":"24BSRAN059","team":"CRIMSON","class":"4th ANI A"},{"name":"RIYA A TIWARI","usn":"24BSRAN060","team":"AMBER","class":"4th ANI A"},{"name":"ROHITH GOWDA E","usn":"24BSRAN061","team":"OBSIDIAN","class":"4th ANI A"},{"name":"S A KRISHNA PRAKAASH","usn":"24BSRAN062","team":"CRIMSON","class":"4th ANI A"},{"name":"SADWIN K M","usn":"24BSRAN063","team":"AMBER","class":"4th ANI A"},{"name":"SATISH KUMAR","usn":"24BSRAN067","team":"OBSIDIAN","class":"4th ANI A"},{"name":"SHIYAM SHANKAR K","usn":"24BSRAN070","team":"CRIMSON","class":"4th ANI A"},{"name":"SHREYA M","usn":"24BSRAN071","team":"AMBER","class":"4th ANI A"},{"name":"SHREYAS S A","usn":"24BSRAN072","team":"OBSIDIAN","class":"4th ANI A"},{"name":"SINDHU B","usn":"24BSRAN074","team":"CRIMSON","class":"4th ANI A"},{"name":"SOUMYARANJAN PATNAIK","usn":"24BSRAN076","team":"AMBER","class":"4th ANI A"},{"name":"SRINITHA KANNAN","usn":"24BSRAN077","team":"OBSIDIAN","class":"4th ANI A"},{"name":"VISHAK R NAIR","usn":"24BSRAN081","team":"CRIMSON","class":"4th ANI A"},{"name":"VIVEK ADITHYA L","usn":"24BSRAN082","team":"AMBER","class":"4th ANI A"},{"name":"YASHASWINI RANA","usn":"24BSRAN084","team":"OBSIDIAN","class":"4th ANI A"},{"name":"ARSH PRADHAN","usn":"24BSRAN087","team":"CRIMSON","class":"4th ANI A"},{"name":"ARNAV KASHYAP","usn":"24BSRAN089","team":"AMBER","class":"4th ANI A"},{"name":"AARYAN B MURALI","usn":"24BSRAN090","team":"OBSIDIAN","class":"4th ANI A"},{"name":"SANJAY KANTH S","usn":"24BSRAN093","team":"CRIMSON","class":"4th ANI A"},{"name":"ALIFIYA A RAMPURAWALA","usn":"24BSRAN094","team":"AMBER","class":"4th ANI A"},{"name":"MOHITH GOWDA M","usn":"24BSRAN095","team":"OBSIDIAN","class":"4th ANI A"},{"name":"LEKKALA LOHITH REDDY","usn":"24BSRAN096","team":"CRIMSON","class":"4th ANI A"},{"name":"KIMBERLIE MELISHA RODRIGAS","usn":"24BSRAN098","team":"AMBER","class":"4th ANI A"},{"name":"JOSHUA JOHN GEORGE","usn":"24BSRAN099","team":"OBSIDIAN","class":"4th ANI A"},{"name":"EASWARANATH S","usn":"24BSRAN001","team":"CRIMSON","class":"4th ANI B"},{"name":"AARYA","usn":"24BSRAN002","team":"AMBER","class":"4th ANI B"},{"name":"ABHINAV V","usn":"24BSRAN003","team":"OBSIDIAN","class":"4th ANI B"},{"name":"ADHEESH CHANDRA KUTHPADY","usn":"24BSRAN004","team":"CRIMSON","class":"4th ANI B"},{"name":"ADITH KRISHNA P S","usn":"24BSRAN005","team":"AMBER","class":"4th ANI B"},{"name":"ADWAITH SAGAR","usn":"24BSRAN008","team":"OBSIDIAN","class":"4th ANI B"},{"name":"ALOK RAVI","usn":"24BSRAN012","team":"CRIMSON","class":"4th ANI B"},{"name":"AMOGH S","usn":"24BSRAN013","team":"AMBER","class":"4th ANI B"},{"name":"ARAVIND SREEDHAR","usn":"24BSRAN014","team":"OBSIDIAN","class":"4th ANI B"},{"name":"ATHUL AJAY","usn":"24BSRAN017","team":"CRIMSON","class":"4th ANI B"},{"name":"AYUSH R SAGAR","usn":"24BSRAN019","team":"AMBER","class":"4th ANI B"},{"name":"BHAGHYALAKSHMI JAYADEVAN","usn":"24BSRAN021","team":"OBSIDIAN","class":"4th ANI B"},{"name":"BHARATH P","usn":"24BSRAN022","team":"CRIMSON","class":"4th ANI B"},{"name":"BHOOMIKA SURENDRA PUTHRAN","usn":"24BSRAN023","team":"AMBER","class":"4th ANI B"},{"name":"FARHAN FAYAZ","usn":"24BSRAN028","team":"OBSIDIAN","class":"4th ANI B"},{"name":"HARSHIT","usn":"24BSRAN031","team":"CRIMSON","class":"4th ANI B"},{"name":"JASKIRAT SINGH","usn":"24BSRAN034","team":"AMBER","class":"4th ANI B"},{"name":"JAYANTH R","usn":"24BSRAN035","team":"OBSIDIAN","class":"4th ANI B"},{"name":"LAHARI S","usn":"24BSRAN039","team":"CRIMSON","class":"4th ANI B"},{"name":"MAHALAKSHMI A","usn":"24BSRAN040","team":"AMBER","class":"4th ANI B"},{"name":"MITHESH RAGHUNATH SHETTY","usn":"24BSRAN043","team":"OBSIDIAN","class":"4th ANI B"},{"name":"MOKSHITH P","usn":"24BSRAN045","team":"CRIMSON","class":"4th ANI B"},{"name":"NAMAN","usn":"24BSRAN047","team":"AMBER","class":"4th ANI B"},{"name":"NAMRATA DEY","usn":"24BSRAN048","team":"OBSIDIAN","class":"4th ANI B"},{"name":"NANDANA ALINKEEL SURESHKUMAR","usn":"24BSRAN049","team":"CRIMSON","class":"4th ANI B"},{"name":"NANDANA ANIL KUMAR","usn":"24BSRAN050","team":"AMBER","class":"4th ANI B"},{"name":"NAQIYA MURTUZA SINGAPURWALA","usn":"24BSRAN051","team":"OBSIDIAN","class":"4th ANI B"},{"name":"P NIKITH","usn":"24BSRAN055","team":"CRIMSON","class":"4th ANI B"},{"name":"RAJATH LAL S","usn":"24BSRAN058","team":"AMBER","class":"4th ANI B"},{"name":"SAHANA K S","usn":"24BSRAN064","team":"OBSIDIAN","class":"4th ANI B"},{"name":"SAKTHIVEL V","usn":"24BSRAN065","team":"CRIMSON","class":"4th ANI B"},{"name":"SARVESH N N","usn":"24BSRAN066","team":"AMBER","class":"4th ANI B"},{"name":"SHARATH KUMAR K S","usn":"24BSRAN068","team":"OBSIDIAN","class":"4th ANI B"},{"name":"SHIVANG","usn":"24BSRAN069","team":"CRIMSON","class":"4th ANI B"},{"name":"SOUMAVA JANA","usn":"24BSRAN075","team":"AMBER","class":"4th ANI B"},{"name":"V LYDIA","usn":"24BSRAN078","team":"OBSIDIAN","class":"4th ANI B"},{"name":"VEDANTH SAGAR","usn":"24BSRAN079","team":"CRIMSON","class":"4th ANI B"},{"name":"VIKAS R REDDY","usn":"24BSRAN080","team":"AMBER","class":"4th ANI B"},{"name":"YALLAPU JAYA SURYA","usn":"24BSRAN083","team":"OBSIDIAN","class":"4th ANI B"},{"name":"YATHISH S","usn":"24BSRAN085","team":"CRIMSON","class":"4th ANI B"},{"name":"YESWANTH RAJ P","usn":"24BSRAN086","team":"AMBER","class":"4th ANI B"},{"name":"ROHITH B S","usn":"24BSRAN088","team":"OBSIDIAN","class":"4th ANI B"},{"name":"BHARATH U","usn":"24BSRAN091","team":"CRIMSON","class":"4th ANI B"},{"name":"BHAVAN U","usn":"24BSRAN092","team":"AMBER","class":"4th ANI B"},{"name":"SUMKSHIPTH K","usn":"24BSRAN097","team":"OBSIDIAN","class":"4th ANI B"},{"name":"DIYA S RAJ","usn":"24BSTAN001","team":"CRIMSON","class":"4th ANI B"},{"name":"AARYAN RAMESH NALGOPULWAR","usn":"24BSRGA001","team":"CRIMSON","class":"4th GAM"},{"name":"ABHISHEK C S","usn":"24BSRGA002","team":"AMBER","class":"4th GAM"},{"name":"AKANKSHA MOHAPATRA","usn":"24BSRGA003","team":"OBSIDIAN","class":"4th GAM"},{"name":"AKSHAY VIJAYAKUMAR","usn":"24BSRGA004","team":"CRIMSON","class":"4th GAM"},{"name":"BURREWAR YASH VISHAL","usn":"24BSRGA005","team":"AMBER","class":"4th GAM"},{"name":"GODWIN DAS C","usn":"24BSRGA006","team":"OBSIDIAN","class":"4th GAM"},{"name":"H SUJAL","usn":"24BSRGA007","team":"CRIMSON","class":"4th GAM"},{"name":"HARSH VARDHAN AGARWAL","usn":"24BSRGA008","team":"AMBER","class":"4th GAM"},{"name":"HARSHMYAA DEDHIA","usn":"24BSRGA009","team":"OBSIDIAN","class":"4th GAM"},{"name":"JAYANDHARA S","usn":"24BSRGA010","team":"CRIMSON","class":"4th GAM"},{"name":"JOSHUA MATHEW","usn":"24BSRGA012","team":"AMBER","class":"4th GAM"},{"name":"JOSHUA R","usn":"24BSRGA013","team":"OBSIDIAN","class":"4th GAM"},{"name":"KAMAT ANAY NIHIIL","usn":"24BSRGA014","team":"CRIMSON","class":"4th GAM"},{"name":"KESAVADAS C J","usn":"24BSRGA015","team":"AMBER","class":"4th GAM"},{"name":"MANISH A M","usn":"24BSRGA016","team":"OBSIDIAN","class":"4th GAM"},{"name":"MANISH R","usn":"24BSRGA017","team":"CRIMSON","class":"4th GAM"},{"name":"PRABUDH PRASHANTH","usn":"24BSRGA019","team":"AMBER","class":"4th GAM"},{"name":"PRAJWAL N","usn":"24BSRGA020","team":"OBSIDIAN","class":"4th GAM"},{"name":"RAJESH V","usn":"24BSRGA021","team":"CRIMSON","class":"4th GAM"},{"name":"RISHITH J KUMAR","usn":"24BSRGA022","team":"AMBER","class":"4th GAM"},{"name":"SAMAY HAWLADAR","usn":"24BSRGA024","team":"OBSIDIAN","class":"4th GAM"},{"name":"SAURAV PRAKASH","usn":"24BSRGA025","team":"CRIMSON","class":"4th GAM"},{"name":"SHREYASH GAGGAR","usn":"24BSRGA026","team":"AMBER","class":"4th GAM"},{"name":"SWAYAM JAIN","usn":"24BSRGA027","team":"OBSIDIAN","class":"4th GAM"},{"name":"SYED REHAN","usn":"24BSRGA028","team":"CRIMSON","class":"4th GAM"},{"name":"TALMALE SIDDHESH RAJESH","usn":"24BSRGA029","team":"AMBER","class":"4th GAM"},{"name":"TARUN KATOCH","usn":"24BSRGA030","team":"OBSIDIAN","class":"4th GAM"},{"name":"VISSVEASH ATHIETHYA M","usn":"24BSRGA033","team":"CRIMSON","class":"4th GAM"},{"name":"YASHVARDHAN SHYLESH NAZARE","usn":"24BSRGA034","team":"AMBER","class":"4th GAM"},{"name":"AISHWARYA M H","usn":"24BSRDF001","team":"CRIMSON","class":"4th DFM"},{"name":"DHEESHA HARISH","usn":"24BSRDF002","team":"AMBER","class":"4th DFM"},{"name":"GODWIN TIGGA","usn":"24BSRDF003","team":"OBSIDIAN","class":"4th DFM"},{"name":"JEEVA MEHTA","usn":"24BSRDF004","team":"CRIMSON","class":"4th DFM"},{"name":"K HAKESH REDDY","usn":"24BSRDF005","team":"AMBER","class":"4th DFM"},{"name":"PAUL JOJO","usn":"24BSRDF006","team":"OBSIDIAN","class":"4th DFM"},{"name":"PRATIK DAS","usn":"24BSRDF007","team":"CRIMSON","class":"4th DFM"},{"name":"SHRUTHIL KUMAR","usn":"24BSRDF008","team":"AMBER","class":"4th DFM"},{"name":"THEJUS P","usn":"24BSRDF009","team":"OBSIDIAN","class":"4th DFM"},{"name":"AVADUTHA ROHAAN","usn":"24BSRDF010","team":"CRIMSON","class":"4th DFM"},{"name":"KRUPAL BABU","usn":"24BSRDF011","team":"AMBER","class":"4th DFM"},{"name":"PRAVEENA A","usn":"24BSRDF012","team":"OBSIDIAN","class":"4th DFM"},{"name":"DHANRAJ HEMBRAM","usn":"24BSRDF013","team":"CRIMSON","class":"4th DFM"},{"name":"AAKARSH BEKAL","usn":"23BSRAN001","team":"CRIMSON","class":"6th ANI A"},{"name":"ABHINAV","usn":"23BSRAN003","team":"AMBER","class":"6th ANI A"},{"name":"ACHYUTH ANANTH  KOTEMANE","usn":"23BSRAN005","team":"OBSIDIAN","class":"6th ANI A"},{"name":"AISHWARYA SINGH","usn":"23BSRAN007","team":"CRIMSON","class":"6th ANI A"},{"name":"ALISHA TANIA","usn":"23BSRAN009","team":"AMBER","class":"6th ANI A"},{"name":"ANNESWA DAS","usn":"23BSRAN011","team":"OBSIDIAN","class":"6th ANI A"},{"name":"ARKA BARMA","usn":"23BSRAN015","team":"CRIMSON","class":"6th ANI A"},{"name":"ARUN JOSEPH SABU","usn":"23BSRAN017","team":"AMBER","class":"6th ANI A"},{"name":"B MRIDULAA","usn":"23BSRAN020","team":"OBSIDIAN","class":"6th ANI A"},{"name":"BILWAPRIYA G","usn":"23BSRAN022","team":"CRIMSON","class":"6th ANI A"},{"name":"CHANDRAKANTH K","usn":"23BSRAN023","team":"AMBER","class":"6th ANI A"},{"name":"DAYNITH SAJJU THAMBI","usn":"23BSRAN025","team":"OBSIDIAN","class":"6th ANI A"},{"name":"DEEPTHI H","usn":"23BSRAN026","team":"CRIMSON","class":"6th ANI A"},{"name":"DONA MARY JOSEPH","usn":"23BSRAN029","team":"AMBER","class":"6th ANI A"},{"name":"GELLA AKARSH","usn":"23BSRAN030","team":"OBSIDIAN","class":"6th ANI A"},{"name":"HARIPRASAD M D","usn":"23BSRAN032","team":"CRIMSON","class":"6th ANI A"},{"name":"HARSHA PRAKASH SATALGAONKAR","usn":"23BSRAN033","team":"AMBER","class":"6th ANI A"},{"name":"JASMINE","usn":"23BSRAN036","team":"OBSIDIAN","class":"6th ANI A"},{"name":"JAY SORATHIYA","usn":"23BSRAN038","team":"CRIMSON","class":"6th ANI A"},{"name":"SRIMANKARTHIKEYAN K","usn":"23BSRAN097","team":"AMBER","class":"6th ANI A"},{"name":"KEVIN JOSEPH EMMANUEL","usn":"23BSRAN066","team":"OBSIDIAN","class":"6th ANI A"},{"name":"KHUSHI M S","usn":"23BSRAN041","team":"CRIMSON","class":"6th ANI A"},{"name":"KIRTI KAUSIK KUMAR","usn":"23BSRAN043","team":"AMBER","class":"6th ANI A"},{"name":"M R LOCHAN","usn":"23BSRAN046","team":"OBSIDIAN","class":"6th ANI A"},{"name":"MANOJ A","usn":"23BSRAN107","team":"CRIMSON","class":"6th ANI A"},{"name":"MOHAMMAD ALTAF ALI","usn":"23BSRAN048","team":"AMBER","class":"6th ANI A"},{"name":"NB DRUTHI","usn":"23BSRAN067","team":"OBSIDIAN","class":"6th ANI A"},{"name":"NEAL JAIN","usn":"23BSRAN051","team":"CRIMSON","class":"6th ANI A"},{"name":"NITYA BALASUBRAMANIAN","usn":"23BSRAN053","team":"AMBER","class":"6th ANI A"},{"name":"PORNRAPIN PONGWEAT","usn":"23BSRAN093","team":"OBSIDIAN","class":"6th ANI A"},{"name":"PRAMODHA S","usn":"23BSRAN056","team":"CRIMSON","class":"6th ANI A"},{"name":"PUNATHIL PRITHVIRAJ SURESH","usn":"23BSRAN058","team":"AMBER","class":"6th ANI A"},{"name":"R NANDAN","usn":"23BSRAN059","team":"OBSIDIAN","class":"6th ANI A"},{"name":"SAI KOUSHIK BUDIGI","usn":"23BSRAN104","team":"CRIMSON","class":"6th ANI A"},{"name":"SANJAY KAMAL G","usn":"23BSRAN068","team":"AMBER","class":"6th ANI A"},{"name":"SAUD A","usn":"23BSRAN064","team":"OBSIDIAN","class":"6th ANI A"},{"name":"SHAIMA FATEHI AHMED ALAUTAIRI","usn":"23BSRAN106","team":"CRIMSON","class":"6th ANI A"},{"name":"SHIVA SENTHIL PANDIYAN","usn":"23BSRAN072","team":"AMBER","class":"6th ANI A"},{"name":"SHIYAM E","usn":"23BSRAN074","team":"OBSIDIAN","class":"6th ANI A"},{"name":"SINCHANA","usn":"23BSRAN098","team":"CRIMSON","class":"6th ANI A"},{"name":"SREYA A V","usn":"23BSRAN077","team":"AMBER","class":"6th ANI A"},{"name":"SUMITH INDUKUMAR","usn":"23BSRAN079","team":"OBSIDIAN","class":"6th ANI A"},{"name":"SIVAKRISHNA R","usn":"23BSRAN076","team":"CRIMSON","class":"6th ANI A"},{"name":"SRISHANTH SANKAR ANBALAGAN","usn":"23BSRAN078","team":"AMBER","class":"6th ANI A"},{"name":"SUPRITH S","usn":"23BSRAN080","team":"OBSIDIAN","class":"6th ANI A"},{"name":"SWARGA SURAJ","usn":"23BSRAN081","team":"CRIMSON","class":"6th ANI A"},{"name":"TENZIN PELKI TONGDEN","usn":"23BSRAN083","team":"AMBER","class":"6th ANI A"},{"name":"THIRUHARSHAN S R","usn":"23BSRAN084","team":"OBSIDIAN","class":"6th ANI A"},{"name":"VANI SINGHAL","usn":"23BSRAN086","team":"CRIMSON","class":"6th ANI A"},{"name":"VISHNU S","usn":"23BSRAN087","team":"AMBER","class":"6th ANI A"},{"name":"YAMA DHRUTI LAKSHMI SAI PRADEEPTA","usn":"23BSRAN089","team":"OBSIDIAN","class":"6th ANI A"},{"name":"YASHAS M","usn":"23BSRAN091","team":"CRIMSON","class":"6th ANI A"},{"name":"SHREYA SRI","usn":"23BSRAN075","team":"AMBER","class":"6th ANI A"},{"name":"VARATTADA THEPRATTANATATKUN","usn":"23BSRAN103","team":"OBSIDIAN","class":"6th ANI A"},{"name":"ABHINAND MURALI","usn":"23BSRAN002","team":"CRIMSON","class":"6th ANI B"},{"name":"ABHYUDAY P RAO","usn":"23BSRAN004","team":"AMBER","class":"6th ANI B"},{"name":"ADITHYAN R M","usn":"23BSRAN006","team":"OBSIDIAN","class":"6th ANI B"},{"name":"ALAN BABU","usn":"23BSRAN008","team":"CRIMSON","class":"6th ANI B"},{"name":"ANKITHA B R","usn":"23BSRAN010","team":"AMBER","class":"6th ANI B"},{"name":"APEKSHA R KARPUR","usn":"23BSRAN012","team":"OBSIDIAN","class":"6th ANI B"},{"name":"ARBIND HARISH","usn":"23BSRAN014","team":"CRIMSON","class":"6th ANI B"},{"name":"ARNAB MAJUMDER","usn":"23BSRAN016","team":"AMBER","class":"6th ANI B"},{"name":"ASHIF AHMED","usn":"23BSRAN018","team":"OBSIDIAN","class":"6th ANI B"},{"name":"B DEEKSHIT SOHAN","usn":"23BSRAN019","team":"CRIMSON","class":"6th ANI B"},{"name":"BHUVAN S","usn":"23BSRAN021","team":"AMBER","class":"6th ANI B"},{"name":"THUSHYANTH NACHAPPA C P","usn":"23BSRAN034","team":"OBSIDIAN","class":"6th ANI B"},{"name":"DEVANSHI KEDIA","usn":"23BSRAN027","team":"CRIMSON","class":"6th ANI B"},{"name":"DOIJAD NIKETAN SHIVNANDAN","usn":"23BSRAN028","team":"AMBER","class":"6th ANI B"},{"name":"FATHIMA NIDA NAZER","usn":"23BSRAN094","team":"OBSIDIAN","class":"6th ANI B"},{"name":"GOURI B","usn":"23BSRAN031","team":"CRIMSON","class":"6th ANI B"},{"name":"HERAMB RAMESH KUMAR MISHRA","usn":"23BSRAN095","team":"AMBER","class":"6th ANI B"},{"name":"JANNIPAGU VARSHITHA","usn":"23BSRAN035","team":"OBSIDIAN","class":"6th ANI B"},{"name":"JASWIN A","usn":"23BSRAN037","team":"CRIMSON","class":"6th ANI B"},{"name":"JIGYAS GOGOI","usn":"23BSRAN039","team":"AMBER","class":"6th ANI B"},{"name":"KAKKERLA YASHWANTH","usn":"23BSRAN065","team":"OBSIDIAN","class":"6th ANI B"},{"name":"KEVIN ROY R","usn":"23BSRAN040","team":"CRIMSON","class":"6th ANI B"},{"name":"KHUSHI P JAIN","usn":"23BSRAN042","team":"AMBER","class":"6th ANI B"},{"name":"KOLAKANI CHETHANA","usn":"23BSRAN044","team":"OBSIDIAN","class":"6th ANI B"},{"name":"LATHIYA KRISHKUMAR HETANBHAI","usn":"23BSRAN045","team":"CRIMSON","class":"6th ANI B"},{"name":"MANJUNATH S","usn":"23BSRAN047","team":"AMBER","class":"6th ANI B"},{"name":"MRUTHUL MOHANDAS","usn":"23BSRAN049","team":"OBSIDIAN","class":"6th ANI B"},{"name":"NAWAZ QURESHI","usn":"23BSRAN050","team":"CRIMSON","class":"6th ANI B"},{"name":"NISHANTH D","usn":"23BSRAN052","team":"AMBER","class":"6th ANI B"},{"name":"PATCHA PAVAN KUMAR","usn":"23BSRAN054","team":"OBSIDIAN","class":"6th ANI B"},{"name":"PRAJWAL BHARDWAJ P","usn":"23BSRAN055","team":"CRIMSON","class":"6th ANI B"},{"name":"PRERANA H","usn":"23BSRAN057","team":"AMBER","class":"6th ANI B"},{"name":"RAMYA M","usn":"23BSRAN060","team":"OBSIDIAN","class":"6th ANI B"},{"name":"SADHANA R REDDY","usn":"23BSRAN062","team":"CRIMSON","class":"6th ANI B"},{"name":"SAIEESH S SHET","usn":"23BSRAN063","team":"AMBER","class":"6th ANI B"},{"name":"SANTANU ROY","usn":"23BSRAN096","team":"OBSIDIAN","class":"6th ANI B"},{"name":"SAVANTH T A","usn":"23BSRAN102","team":"CRIMSON","class":"6th ANI B"},{"name":"SHASHANK R","usn":"23BSRAN071","team":"AMBER","class":"6th ANI B"},{"name":"SHIVASAGAR J","usn":"23BSRAN073","team":"OBSIDIAN","class":"6th ANI B"},{"name":"SURAPPAGARI PURNIMA CHANDRA","usn":"23BSRAN092","team":"CRIMSON","class":"6th ANI B"},{"name":"SURYA CHARAN","usn":"23BSRAN100","team":"AMBER","class":"6th ANI B"},{"name":"TEJESWINI S","usn":"23BSRAN082","team":"OBSIDIAN","class":"6th ANI B"},{"name":"VAMA PANKAJ SHAH","usn":"23BSRAN085","team":"CRIMSON","class":"6th ANI B"},{"name":"VIVEK VILOHIT S","usn":"23BSRAN088","team":"AMBER","class":"6th ANI B"},{"name":"YASH KHANDEKAR","usn":"23BSRAN090","team":"OBSIDIAN","class":"6th ANI B"},{"name":"ABHINAV TIWARI","usn":"23BSRAN069","team":"CRIMSON","class":"6th ANI B"},{"name":"LAKSHMISHA N","usn":"23BSRAN070","team":"AMBER","class":"6th ANI B"},{"name":"MAHAMMAD ZOHA KHAN","usn":"23BSRAN101","team":"OBSIDIAN","class":"6th ANI B"},{"name":"ABDUL RAHMAN","usn":"23BSRGA001","team":"CRIMSON","class":"6th GAM"},{"name":"ADVAITH M K","usn":"23BSRGA002","team":"AMBER","class":"6th GAM"},{"name":"ARJUN A DIVAKAR","usn":"23BSRGA003","team":"OBSIDIAN","class":"6th GAM"},{"name":"GOURI S","usn":"23BSRGA005","team":"CRIMSON","class":"6th GAM"},{"name":"H NITIN KRISHNA","usn":"23BSRGA006","team":"AMBER","class":"6th GAM"},{"name":"K PREM SHANKAR GOVARDHAN YADAV","usn":"23BSRGA007","team":"OBSIDIAN","class":"6th GAM"},{"name":"KAYAL M","usn":"23BSRGA008","team":"CRIMSON","class":"6th GAM"},{"name":"KOMIREDDY RAMU","usn":"23BSRGA009","team":"AMBER","class":"6th GAM"},{"name":"MITHUN RAHUL N S","usn":"23BSRGA010","team":"OBSIDIAN","class":"6th GAM"},{"name":"BALUSA JITHENDRA KUMAR","usn":"23BSRGA011","team":"CRIMSON","class":"6th GAM"},{"name":"MOHD SHEHARYAR","usn":"23BSRGA012","team":"AMBER","class":"6th GAM"},{"name":"N MANJUNATH","usn":"23BSRGA013","team":"OBSIDIAN","class":"6th GAM"},{"name":"NANDISH BAGRI","usn":"23BSRGA014","team":"CRIMSON","class":"6th GAM"},{"name":"PALAASH DWIVEDI","usn":"23BSRGA015","team":"AMBER","class":"6th GAM"},{"name":"RYAN ALLOYSIUS","usn":"23BSRGA016","team":"OBSIDIAN","class":"6th GAM"},{"name":"SANJITH SANJAY","usn":"23BSRGA017","team":"CRIMSON","class":"6th GAM"},{"name":"SHREYAS M S","usn":"23BSRGA018","team":"AMBER","class":"6th GAM"},{"name":"TARAN PRATOSH J","usn":"23BSRGA019","team":"OBSIDIAN","class":"6th GAM"},{"name":"THARUN R","usn":"23BSRGA020","team":"CRIMSON","class":"6th GAM"},{"name":"ABHINAND P ANISH","usn":"23BSRGA022","team":"AMBER","class":"6th GAM"},{"name":"ANAND MOHAN","usn":"23BSRGA023","team":"OBSIDIAN","class":"6th GAM"},{"name":"ARSH ZAYD","usn":"23BSRGA024","team":"CRIMSON","class":"6th GAM"},{"name":"KRISHANK VERMA","usn":"23BSRGA026","team":"AMBER","class":"6th GAM"},{"name":"N VARUN","usn":"23BSRGA027","team":"OBSIDIAN","class":"6th GAM"},{"name":"REVATHI P V","usn":"23BSRGA028","team":"CRIMSON","class":"6th GAM"},{"name":"SASHI KUMAR JAISWAL","usn":"23BSRGA029","team":"AMBER","class":"6th GAM"},{"name":"SHOURYAMAN KIRANRAJ UCHIL","usn":"23BSRGA030","team":"OBSIDIAN","class":"6th GAM"},{"name":"THANUSH D","usn":"23BSRGA031","team":"CRIMSON","class":"6th GAM"},{"name":"BEESA SAI JAYANTH","usn":"23BSRGA032","team":"AMBER","class":"6th GAM"},{"name":"NIVEDH SURESH NAMBIAR","usn":"23BSRGA033","team":"OBSIDIAN","class":"6th GAM"},{"name":"ANURAG HAZARIKA","usn":"23BSRGA034","team":"CRIMSON","class":"6th GAM"},{"name":"AGNIVESH S B","usn":"","team":"CRIMSON","class":"6th DFM"},{"name":"ARUNITA MONDAL","usn":"","team":"AMBER","class":"6th DFM"},{"name":"DEEPIKA S R","usn":"","team":"OBSIDIAN","class":"6th DFM"},{"name":"DISHA GUPTHA","usn":"","team":"CRIMSON","class":"6th DFM"},{"name":"DIWAKAR V","usn":"","team":"AMBER","class":"6th DFM"},{"name":"GURUKULAM AMARTHYA REDDY","usn":"","team":"OBSIDIAN","class":"6th DFM"},{"name":"KISHORE T","usn":"","team":"CRIMSON","class":"6th DFM"},{"name":"MARK ABRAHAM THOMAS","usn":"","team":"AMBER","class":"6th DFM"},{"name":"NANDAN NATH","usn":"","team":"OBSIDIAN","class":"6th DFM"},{"name":"PRITHIV KUMAR A","usn":"","team":"CRIMSON","class":"6th DFM"},{"name":"SAMIT LAMBU","usn":"","team":"AMBER","class":"6th DFM"},{"name":"SARVAGYA BAVEJA","usn":"","team":"OBSIDIAN","class":"6th DFM"},{"name":"MANISH VAISHNAW","usn":"","team":"CRIMSON","class":"6th DFM"},{"name":"RAJU P","usn":"","team":"AMBER","class":"6th DFM"},{"name":"VANSH VIREN","usn":"","team":"OBSIDIAN","class":"6th DFM"},{"name":"ABHISHEK WILLIAMS","usn":"25MSANR012","team":"CRIMSON","class":"2nd PG"},{"name":"ASHIKA SUSAN BINU","usn":"25MSANR001","team":"AMBER","class":"2nd PG"},{"name":"ATUL RAJ KOTHOTTIL","usn":"25MSANR008","team":"OBSIDIAN","class":"2nd PG"},{"name":"AVIN NADAN","usn":"25MSANR019","team":"CRIMSON","class":"2nd PG"},{"name":"CHITHA PRANUDEEP REDDY","usn":"25MSANR002","team":"AMBER","class":"2nd PG"},{"name":"DHRITI V","usn":"25MSANR003","team":"OBSIDIAN","class":"2nd PG"},{"name":"KARTIK MIRJE","usn":"25MSANR023","team":"CRIMSON","class":"2nd PG"},{"name":"KAUSTUBH SHARAD MANE","usn":"25MSANR009","team":"AMBER","class":"2nd PG"},{"name":"K S LALITHA PRIYA","usn":"25MSANR004","team":"OBSIDIAN","class":"2nd PG"},{"name":"NIKITHA K","usn":"25MSANR005","team":"CRIMSON","class":"2nd PG"},{"name":"MOKHADKAR NIRAJ DURGADAS","usn":"25MSANR010","team":"AMBER","class":"2nd PG"},{"name":"RAKUL P","usn":"25MSANR013","team":"OBSIDIAN","class":"2nd PG"},{"name":"RIYA SAMANTA","usn":"25MSANR016","team":"CRIMSON","class":"2nd PG"},{"name":"RUSHIL UCHIL","usn":"25MSANR020","team":"AMBER","class":"2nd PG"},{"name":"SHAYAN PRAVIN NETREKAR","usn":"25MSANR025","team":"OBSIDIAN","class":"2nd PG"},{"name":"SHRINIVAS G KULKARNI","usn":"25MSANR017","team":"CRIMSON","class":"2nd PG"},{"name":"SHRIRAM HANDRAL","usn":"25MSANR021","team":"AMBER","class":"2nd PG"},{"name":"YUVRAJ P","usn":"25MSANR007","team":"OBSIDIAN","class":"2nd PG"},{"name":"TAMARANA YASWANTH","usn":"25MSANR011","team":"CRIMSON","class":"2nd PG"},{"name":"VISHNU PRASANNA R S","usn":"25MSANR006","team":"AMBER","class":"2nd PG"},{"name":"NESAR JAIN A","usn":"25MSANR015","team":"OBSIDIAN","class":"2nd PG"},{"name":"SAGAR SHETTY","usn":"25MSANR024","team":"CRIMSON","class":"2nd PG"},{"name":"SURANA CHETAN DILIP","usn":"24MSRAN001","team":"CRIMSON","class":"4th PG"},{"name":"ATHISH B S","usn":"24MSRAN002","team":"AMBER","class":"4th PG"},{"name":"GURUPRASAD M","usn":"24MSRAN003","team":"OBSIDIAN","class":"4th PG"},{"name":"NAIR RAHUL RAJESH","usn":"24MSRAN004","team":"CRIMSON","class":"4th PG"},{"name":"NITISH D","usn":"24MSRAN005","team":"AMBER","class":"4th PG"},{"name":"PRERANA SRINIVASA","usn":"24MSRAN006","team":"OBSIDIAN","class":"4th PG"},{"name":"SANKET SANJAY BHAT","usn":"24MSRAN007","team":"CRIMSON","class":"4th PG"},{"name":"VATAPARTHI THILAK DEV RAJ","usn":"24MSRAN008","team":"AMBER","class":"4th PG"},{"name":"N Harish Kumar","usn":"24MSRAN009","team":"OBSIDIAN","class":"4th PG"},{"name":"ANWESHA MISHRA","usn":"24MSRAN010","team":"CRIMSON","class":"4th PG"},{"name":"APARNA BAIJU","usn":"24MSRAN011","team":"AMBER","class":"4th PG"},{"name":"DEEPA SHREE N","usn":"24MSRAN012","team":"OBSIDIAN","class":"4th PG"},{"name":"DHANRAJ G","usn":"24MSRAN013","team":"CRIMSON","class":"4th PG"},{"name":"DOLLY R","usn":"24MSRAN014","team":"AMBER","class":"4th PG"},{"name":"GAGAN H P","usn":"24MSRAN015","team":"OBSIDIAN","class":"4th PG"},{"name":"GURUPRASAD S","usn":"24MSRAN017","team":"CRIMSON","class":"4th PG"},{"name":"HARSHITH K P","usn":"24MSRAN018","team":"AMBER","class":"4th PG"},{"name":"NITHIN PRASAD","usn":"24MSRAN019","team":"OBSIDIAN","class":"4th PG"},{"name":"POOJARI PRASANNA KUMAR","usn":"24MSRAN020","team":"CRIMSON","class":"4th PG"},{"name":"RENUDHARSHAK S V","usn":"24MSRAN021","team":"AMBER","class":"4th PG"},{"name":"THUMMAGINJALA BHARATH RANJAN","usn":"24MSRAN022","team":"OBSIDIAN","class":"4th PG"},{"name":"SUPREETH K","usn":"24MSRAN023","team":"CRIMSON","class":"4th PG"},{"name":"NIKHIL R KRISHNA","usn":"24MSRAN024","team":"AMBER","class":"4th PG"},{"name":"KENDRA SHUBIKSA S","usn":"24MSRAN025","team":"OBSIDIAN","class":"4th PG"},{"name":"NANDHA KISHORE M","usn":"24MSRAN026","team":"CRIMSON","class":"4th PG"}
+];
+
+const search = document.getElementById("search");
+const results = document.getElementById("results");
+
+// 🔥 ENTER KEY SEARCH
+search.addEventListener("keydown", function(e) {
+
+  if (e.key === "Enter") {
+
+    // 🔥 THIS LINE IS REQUIRED
+    for (let i = 0; i < 20; i++) {
+      createGlitter();
+    }
+
+    const q = search.value.toLowerCase().trim();
+
+    const student = STUDENTS.find(s => 
+      s.name.toLowerCase().includes(q)
+    );
+
+    if (!student) {
+  results.innerHTML = `<div class="prompt-msg">No match found</div>`;
+  return;
+}
+
+// 🔥 ADD THIS LINE HERE
+showReveal(student.team);
+
+results.innerHTML = `
+  <div class="result-card">
+    <div class="card-inner">
+      <div class="team-stripe ${student.team}"></div>
+      <div class="card-body">
+        <div class="student-name">${student.name}</div>
+        <div class="team-label ${student.team}">${student.team}</div>
+      </div>
+    </div>
+  </div>
+`;
+  }
+});
+
+// 🧹 CLEAR OLD RESULT WHILE TYPING
+search.addEventListener("input", () => {
+  results.innerHTML = "";
+});
+const glitterContainer = document.querySelector(".glitter-container");
+
+function createGlitter() {
+  if (!glitterContainer) return;
+
+  const colors = [
+    "#FF3B3B", // red
+    "#F39C12", // amber
+    "#FFD700", // gold
+    "#00E5FF", // cyan
+    "#8E44AD", // purple
+    "#FFFFFF"  // white
+  ];
+
+  const g = document.createElement("div");
+  g.className = "glitter";
+
+  g.style.left = Math.random() * window.innerWidth + "px";
+  g.style.top = "-10px";
+
+  // 🎨 random color
+  const color = colors[Math.floor(Math.random() * colors.length)];
+  g.style.background = color;
+  g.style.color = color;
+
+  // random size (more natural)
+  const size = Math.random() * 6 + 4;
+  g.style.width = size + "px";
+  g.style.height = size + "px";
+
+  glitterContainer.appendChild(g);
+
+  setTimeout(() => g.remove(), 2000);
+}
+const revealScreen = document.getElementById("reveal-screen");
+const revealTeam = document.getElementById("reveal-team");
+
+function showReveal(team) {
+
+  revealTeam.textContent = team;
+
+  // apply team color
+  revealTeam.className = "reveal-team " + team;
+
+  // show screen
+  revealScreen.classList.add("active");
+
+  // hide after 2 seconds
+  setTimeout(() => {
+    revealScreen.classList.remove("active");
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
