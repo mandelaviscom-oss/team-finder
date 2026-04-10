@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +7,82 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+/* Title */
+.score-title {
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 34px;
+  letter-spacing: 0.25em;
+  margin-top: 120px;
+  margin-bottom: 25px;
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(255,255,255,0.6);
+}
 
+/* Container */
+.scoreboard {
+  max-width: 720px;
+  margin: 0 auto 40px;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.1em;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 20px;
+  backdrop-filter: blur(12px);
+}
+
+/* Header */
+.score-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 14px 0;
+  text-align: center;
+  font-size: 18px;
+  color: #aaa;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+/* Rows */
+.score-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 18px 0;
+  text-align: center;
+  font-size: 26px;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Hover effect */
+.score-row:hover {
+  transform: scale(1.03);
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+}
+
+/* Colors + Glow */
+.crimson {
+  color: #FF3B3B;
+  text-shadow: 0 0 12px rgba(255,59,59,0.8);
+}
+
+.amber {
+  color: #F39C12;
+  text-shadow: 0 0 12px rgba(243,156,18,0.8);
+}
+
+.obsidian {
+  color: #8E8EFF;
+  text-shadow: 0 0 12px rgba(142,142,255,0.8);
+}
+
+/* Leader highlight */
+.leading {
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  transform: scale(1.05);
+}
 ...your existing CSS...
 
 /* ✨ ADD HERE */
@@ -258,7 +333,39 @@
   <input type="text" id="search" placeholder="Type your name and press Enter">
 </div>
 
+<div class="score-title">LIVE SCOREBOARD</div>
 
+<div class="scoreboard">
+
+  <div class="score-header">
+    <div>TEAM</div>
+    <div>POINTS</div>
+    <div>🏆 WIN</div>
+    <div>🥈 RUNNER</div>
+  </div>
+
+  <div class="score-row crimson leading">
+    <div>CRIMSON</div>
+    <div>0</div>
+    <div>0</div>
+    <div>0</div>
+  </div>
+
+  <div class="score-row amber">
+    <div>AMBER</div>
+    <div>0</div>
+    <div>0</div>
+    <div>0</div>
+  </div>
+
+  <div class="score-row obsidian">
+    <div>OBSIDIAN</div>
+    <div>0</div>
+    <div>0</div>
+    <div>0</div>
+  </div>
+
+</div>
 <footer>DEPARTMENT OF ANIMATION & VIRTUAL REALITY · 2026</footer>
 
 </div>
