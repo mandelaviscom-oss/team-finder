@@ -164,6 +164,24 @@ font-weight: bold;
   color: #ffffff;
   text-shadow: 0 0 8px #F39C12;
 }
+/* 🔥 Blinking Announcement */
+.announcement {
+  text-align: center;
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #FF3B3B;
+
+  animation: blinkText 1s infinite;
+}
+
+/* Blink animation */
+@keyframes blinkText {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.2; }
+  100% { opacity: 1; }
+}
 </style>
 <style>
   :root {
@@ -467,6 +485,7 @@ button {
 </head>
 
 <body>
+
 <div id="reveal-screen" class="reveal-screen hidden">
   <div class="reveal-text">
     <div class="reveal-sub">YOU BELONG TO</div>
@@ -518,6 +537,9 @@ button {
     EVENT SCHEDULE
   </a>
 
+</div>
+<div class="announcement">
+  ⚡ Online Competition Submission Deadline: 16 April 2026, 11:59 PM ⚡
 </div>
 <div class="rules-scroll">
   <div class="rules-scroll">
