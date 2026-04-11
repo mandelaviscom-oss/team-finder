@@ -119,6 +119,50 @@
   margin: 0 auto 50px;
   filter: drop-shadow(0 0 12px rgba(255,255,255,0.6));
 }
+/* 🔥 Rules scrolling container */
+.rules-scroll {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 8px 0;
+}
+
+/* ✨ Moving clickable text */
+.rules-text {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scrollText 18s linear infinite;
+  font-size: 14px;
+  color: #F39C12;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Hover effect */
+.rules-text:hover {
+  color: #ffffff;
+  text-shadow: 0 0 10px #F39C12;
+}
+
+/* 🚀 Animation */
+@keyframes scrollText {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.rules-link {
+  color: #ffffff;
+  font-size: 14px;
+  text-decoration: none;
+  letter-spacing: 0.08em;
+}
+
+.rules-link:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px #F39C12;
+}
 </style>
 <style>
   :root {
@@ -198,8 +242,8 @@
 
   .prompt-msg {
   text-align: center;
-  padding: 20px 0;
-  margin-top: -30px;
+  padding: 10px 0;
+margin-top: -30px;
   font-size: 24px;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -443,6 +487,21 @@ button {
     ">
       REGISTER HERE
     </button>
+  </a>
+</div>
+<div style="text-align:center; margin-top:10px;">
+  <a href="https://drive.google.com/drive/folders/1BcnNXMvSDspmMXzfywyURYgheT7p5e8f" target="_blank" class="rules-link">
+    Click here to view Rules & Regulations
+  </a>
+</div>
+<div style="text-align:center; margin-top:10px;">
+  <a href="schedule.pdf" target="_blank" class="schedule-link"
+    Event Schedule
+  </a>
+</div>
+<div class="rules-scroll">
+  <a href="rules.pdf" target="_blank" class="rules-text">
+    ✦ Follow event timings ✦ Maintain discipline ✦ No malpractice allowed ✦ Judges decision is final ✦
   </a>
 </div>
 <div class="score-title">LIVE SCOREBOARD</div>
