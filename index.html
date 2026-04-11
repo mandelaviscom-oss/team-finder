@@ -932,22 +932,24 @@ document.addEventListener("DOMContentLoaded", function () {
   const btn = document.getElementById("enter-btn");
   const intro = document.getElementById("intro-screen");
 
-  // 🎵 START MUSIC ON FIRST CLICK ANYWHERE
-  document.addEventListener("click", function () {
+  btn.addEventListener("click", function () {
+
+    // 🎵 PLAY SOUND (guaranteed because user clicked)
     music.currentTime = 0;
+
     music.play().then(() => {
-      console.log("🔥 MUSIC STARTED");
+      console.log("🔥 AUDIO PLAYING");
     }).catch(err => {
       console.log("❌ AUDIO ERROR:", err);
     });
-  }, { once: true });
 
-  // 🎯 ENTER BUTTON → STOP MUSIC
-  btn.addEventListener("click", function () {
+    // 🛑 STOP AFTER 3 SECONDS (optional)
+    setTimeout(() => {
+      music.pause();
+      music.currentTime = 0;
+    }, 3000);
 
-    music.pause();
-    music.currentTime = 0;
-
+    // 🎬 HIDE INTRO
     intro.style.opacity = "0";
 
     setTimeout(() => {
