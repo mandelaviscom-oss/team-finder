@@ -1052,5 +1052,35 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 });
+	document.addEventListener("DOMContentLoaded", function () {
+
+  const btn = document.getElementById("enter-btn");
+  const intro = document.getElementById("intro-screen");
+  const reveal = document.getElementById("reveal-screen");
+  const teamText = document.getElementById("reveal-team");
+
+  btn.addEventListener("click", function () {
+
+    // 🎬 hide intro
+    intro.style.opacity = "0";
+
+    setTimeout(() => {
+      intro.style.display = "none";
+
+      // 🔥 SHOW REVEAL SCREEN
+      reveal.classList.add("active");
+
+      // 🎯 TEST TEAM
+      teamText.innerText = "CRIMSON";
+
+      // 🎨 COLOR
+      teamText.className = "reveal-team CRIMSON";
+
+    }, 600);
+
+  });
+
+});
+</script>
 </body>
 </html>
