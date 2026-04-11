@@ -891,6 +891,38 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 });
+	<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const music = document.getElementById("bg-music");
+  const btn = document.getElementById("enter-btn");
+  const intro = document.getElementById("intro-screen");
+
+  // 🎵 START MUSIC ON FIRST CLICK
+  document.addEventListener("click", function () {
+    music.play().then(() => {
+      console.log("🔥 MUSIC STARTED");
+    }).catch(err => {
+      console.log("❌ AUDIO ERROR:", err);
+    });
+  }, { once: true });
+
+  // 🎯 ENTER BUTTON
+  btn.addEventListener("click", function () {
+
+    music.pause();
+    music.currentTime = 0;
+
+    intro.style.opacity = "0";
+
+    setTimeout(() => {
+      intro.style.display = "none";
+    }, 600);
+
+  });
+
+});
+</script>
 </script>
 </script>
 <script>
