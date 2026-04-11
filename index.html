@@ -898,21 +898,23 @@ document.addEventListener("DOMContentLoaded", function () {
   const btn = document.getElementById("enter-btn");
   const intro = document.getElementById("intro-screen");
 
-  // 🎵 START MUSIC ON FIRST CLICK
-  document.addEventListener("click", function () {
-    music.play().then(() => {
-      console.log("🔥 MUSIC STARTED");
-    }).catch(err => {
-      console.log("❌ AUDIO ERROR:", err);
-    });
-  }, { once: true });
-
-  // 🎯 ENTER BUTTON
   btn.addEventListener("click", function () {
 
-    music.pause();
+    // 🎵 PLAY AUDIO (guaranteed)
     music.currentTime = 0;
+    music.play().then(() => {
+      console.log("🔥 AUDIO WORKING");
+    }).catch(err => {
+      console.log("❌ ERROR:", err);
+    });
 
+    // ⏱ OPTIONAL: stop after 4 sec
+    setTimeout(() => {
+      music.pause();
+      music.currentTime = 0;
+    }, 4000);
+
+    // 🎬 hide intro
     intro.style.opacity = "0";
 
     setTimeout(() => {
@@ -920,6 +922,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 600);
 
   });
+
+});
 
 });
 </script>
