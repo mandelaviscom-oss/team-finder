@@ -833,25 +833,28 @@ document.addEventListener("DOMContentLoaded", function () {
   const music = document.getElementById("bg-music");
   const btn = document.getElementById("enter-btn");
   const intro = document.getElementById("intro-screen");
+  const reveal = document.getElementById("reveal-screen");
+  const teamText = document.getElementById("reveal-team");
 
-  // 🔥 START MUSIC ON FIRST CLICK ANYWHERE (FEELS LIKE AUTOPLAY)
-  document.addEventListener("click", function () {
-    music.play().catch(()=>{});
-  }, { once: true });
-
-  // 🎯 ENTER BUTTON
   btn.addEventListener("click", function () {
 
-    // 🛑 STOP MUSIC
-    music.pause();
+    // 🎵 PLAY MUSIC
     music.currentTime = 0;
+    music.play().catch(()=>{});
 
     // 🎬 HIDE INTRO
     intro.style.opacity = "0";
 
     setTimeout(() => {
       intro.style.display = "none";
-    }, 500);
+
+      // 🔥 SHOW REVEAL SCREEN
+      reveal.classList.remove("hidden");
+
+      // 🎯 SET TEAM NAME (TEST)
+      teamText.innerText = "TEAM CRIMSON 🔥";
+
+    }, 600);
 
   });
 
