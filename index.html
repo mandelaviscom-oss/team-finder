@@ -614,7 +614,7 @@ button {
 
   </div>
 </div>
-<div id="reveal-screen" class="reveal-screen hidden">
+<div id="reveal-screen" class="reveal-screen">
   <div class="reveal-text">
     <div class="reveal-sub">YOU BELONG TO</div>
     <div id="reveal-team" class="reveal-team"></div>
@@ -1023,5 +1023,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+	document.addEventListener("DOMContentLoaded", function () {
+
+  const btn = document.getElementById("enter-btn");
+  const intro = document.getElementById("intro-screen");
+  const reveal = document.getElementById("reveal-screen");
+  const teamText = document.getElementById("reveal-team");
+
+  btn.addEventListener("click", function () {
+
+    // 🎬 Hide intro
+    intro.style.opacity = "0";
+
+    setTimeout(() => {
+      intro.style.display = "none";
+
+      // 🔥 SHOW REVEAL
+      reveal.classList.add("active");
+
+      // 🎯 TEMP TEST TEAM
+      teamText.innerText = "CRIMSON";
+
+      // 🎨 apply color
+      teamText.classList.add("CRIMSON");
+
+    }, 600);
+
+  });
+
+});
 </body>
 </html>
