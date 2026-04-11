@@ -395,6 +395,17 @@
     margin-top: 30px;
   }
 }
+/* 🔥 BLINK BUTTON */
+@keyframes blinkAnim {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+
+/* apply to button */
+button {
+  animation: blinkAnim 1s infinite;
+}
 </style>
 </head>
 
