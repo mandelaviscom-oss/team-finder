@@ -184,33 +184,6 @@ font-weight: bold;
   50%  { opacity: 0.2; }
   100% { opacity: 1; }
 }
-.intro-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3000;
-  transition: opacity 1s ease;
-}
-
-.intro-text {
-   font-family: 'Bebas Neue', sans-serif;  /* 👈 strong font */
-  text-align: center;
-  font-size: 48px;
-  letter-spacing: 0.15em;
-  line-height: 1.4;
-  max-width: 800px;
-  opacity: 0;
-  transition: opacity 1s ease;
-
-  text-shadow: 0 0 20px rgba(255,255,255,0.6);
-}
 </style>
 <style>
   :root {
@@ -514,12 +487,7 @@ button {
 </head>
 
 <body>
-<audio id="intro-music">
-  <source src="intro.mp3" type="audio/mpeg">
-</audio>
-<div id="intro-screen" class="intro-screen">
-  <div class="intro-text" id="intro-text"></div>
-</div>
+
 <div id="reveal-screen" class="reveal-screen hidden">
   <div class="reveal-text">
     <div class="reveal-sub">YOU BELONG TO</div>
@@ -733,66 +701,6 @@ function showReveal(team) {
     revealScreen.classList.remove("active");
   }, 2000);
 }
-const lines = [
-   "WELCOME TO ODYSSEY 2026",
-  "DEPARTMENT OF ANIMATION & VR",
-  "",
-  "NOT JUST AN EVENT",
-  "A SHOWCASE OF <br> IDEAS, STORIES, & WORLDS",
-  "",
-  "STEP IN",
-  "EXPERIENCE WHAT WE’VE CREATED"
-];
-
-const textEl = document.getElementById("intro-text");
-const screen = document.getElementById("intro-screen");
-
-let i = 0;
-
-function showLine() {
-  if (i >= lines.length) {
-    setTimeout(() => {
-      screen.style.opacity = "0";
-      setTimeout(() => screen.style.display = "none", 1000);
-    }, 1200);
-    return;
-  }
-
-  textEl.style.opacity = 0;
-
-  setTimeout(() => {
-    textEl.innerHTML = lines[i];
-    textEl.style.opacity = 1;
-    i++;
-    setTimeout(showLine, 1800);
-  }, 500);
-}
-
-window.onload = () => {
-  setTimeout(showLine, 500);
-};
-const music = document.getElementById("intro-music");
-
-window.onload = () => {
-  setTimeout(() => {
-    music.play().catch(() => {
-      console.log("Autoplay blocked");
-    });
-    showLine(); // your intro animation
-  }, 500);
-};
-document.addEventListener("click", () => {
-  music.play();
-}, { once: true });
-	const music = document.getElementById("intro-music");
-
-// play on first click (100% works)
-document.addEventListener("click", () => {
-  music.play();
-}, { once: true });
-
-// optional volume
-music.volume = 0.4;
 </script>
 
 </body>
